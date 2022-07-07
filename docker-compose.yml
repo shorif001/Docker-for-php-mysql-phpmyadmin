@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  php-env:
+    build: .
+    volumes: 
+      - ./src:/var/www/html #./src: eta local r /var/.... eta container. index.php file ta j khane thakbe tar path ei khane dite hobe.
+    ports:
+      - 9000:80 #project ta j port a run korbe 
+
+  #mysql setup
+  mysql_db:
+    image: mysql:latest #mysql default image not changeable
+    command: --default-authentication-plugin=mysql_native_password #not changeable
+    restart: always #not changeable
+    environment:
+      MYSQL_ROOT_PASSWORD: root   #not changeable
+
+  #phpmyadmin setup
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: always
+    ports:
+      - 9001:80 #phpmyadmin j port a run korbe.
+    environment:
+      - PMA_ARBITRARY=1
